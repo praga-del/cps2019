@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NPTEL Chemical Process Safety – Quiz</title>
+<style>
+:root{--bg:#f3f4f8;--card:#fff;--ink:#1f2430;--muted:#6b7280;--brand:#9b2d30;--brand2:#7a2224;--ok:#16803c;--okbg:#e6f6ec;--bad:#c62828;--badbg:#fdeaea;--line:#e3e5ec}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:var(--brand);color:#fff;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+header h1{font-size:18px;margin:0;font-weight:600}
+header small{opacity:.85}
+.wrap{max-width:820px;margin:24px auto;padding:0 16px}
+.card{background:var(--card);border-radius:12px;padding:26px;box-shadow:0 2px 12px rgba(0,0,0,.07)}
+h2{margin:0 0 6px;font-size:22px}
+p.sub{color:var(--muted);margin:0 0 20px}
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px}
+.mode{border:2px solid var(--line);border-radius:10px;padding:14px;cursor:pointer;background:#fff;text-align:left;font:inherit}
+.mode b{display:block;font-size:16px;margin-bottom:4px}
+.mode span{color:var(--muted);font-size:13px}
+.mode.on{border-color:var(--brand);background:#fbf1f1}
+.weeks{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:18px}
+.wk{padding:10px 0;border:2px solid var(--line);border-radius:8px;background:#fff;cursor:pointer;font:inherit;font-weight:600}
+.wk.on{border-color:var(--brand);background:var(--brand);color:#fff}
+.opts{display:flex;flex-direction:column;gap:8px;margin:0 0 20px}
+.sw{display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none}
+.sw input{width:18px;height:18px;accent-color:var(--brand)}
+.btn{background:var(--brand);color:#fff;border:0;border-radius:8px;padding:12px 26px;font:inherit;font-weight:600;font-size:15px;cursor:pointer}
+.btn:hover{background:var(--brand2)}
+.btn.ghost{background:#fff;color:var(--brand);border:2px solid var(--brand)}
+.hidden{display:none!important}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:14px;color:var(--muted);gap:10px;flex-wrap:wrap}
+.tag{background:#f4e3e3;color:var(--brand);padding:3px 10px;border-radius:20px;font-weight:600;font-size:13px}
+.bar{height:8px;background:var(--line);border-radius:6px;overflow:hidden;margin-bottom:22px}
+.bar div{height:100%;background:var(--brand);width:0;transition:width .3s}
+.q{font-size:19px;line-height:1.5;font-weight:600;margin:0 0 20px;white-space:pre-line}
+.o{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;border:2px solid var(--line);background:#fff;border-radius:10px;padding:13px 16px;margin-bottom:10px;font:inherit;font-size:16px;cursor:pointer;transition:.15s}
+.o:hover:not(:disabled){border-color:var(--brand);background:#fbf1f1}
+.o i{font-style:normal;flex:none;width:26px;height:26px;border-radius:50%;background:#eceef4;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700}
+.o.ok{border-color:var(--ok);background:var(--okbg)}
+.o.ok i{background:var(--ok);color:#fff}
+.o.no{border-color:var(--bad);background:var(--badbg)}
+.o.no i{background:var(--bad);color:#fff}
+.o:disabled{cursor:default}
+.fb{min-height:24px;font-weight:600;margin:6px 0 14px}
+.fb.ok{color:var(--ok)}.fb.no{color:var(--bad)}
+.foot{display:flex;justify-content:space-between;align-items:center}
+.score{font-size:54px;font-weight:700;color:var(--brand);margin:6px 0}
+.rev{border-top:1px solid var(--line);padding:12px 0;font-size:15px}
+.rev b{display:block;margin-bottom:4px;white-space:pre-line}
+.rev .y{color:var(--ok)}.rev .n{color:var(--bad)}
+.hint{color:var(--muted);font-size:12px;margin-top:14px}
+@media(max-width:560px){.modes{grid-template-columns:1fr}.weeks{grid-template-columns:repeat(4,1fr)}.q{font-size:17px}}
+</style>
+</head>
+<body>
+<header><h1>NPTEL – Chemical Process Safety</h1><small>Computer-based Quiz · 120 Questions</small></header>
+<div class="wrap">
+
+<!-- HOME -->
+<div id="home" class="card">
+  <h2>Choose your quiz</h2>
+  <p class="sub">Answers are exactly as per the NPTEL assignment key (Assignments 1–12).</p>
+  <div class="modes">
+    <button class="mode on" id="mWeek"><b>Week-wise</b><span>10 questions from one selected week</span></button>
+    <button class="mode" id="mAll"><b>All Questions</b><span>All 120 questions (12 weeks × 10)</span></button>
+  </div>
+  <div id="weekPick">
+    <div style="font-weight:600;margin-bottom:8px">Select week</div>
+    <div class="weeks" id="weeks"></div>
+  </div>
+  <div class="opts">
+    <label class="sw"><input type="checkbox" id="shQ"> Shuffle questions</label>
+    <label class="sw"><input type="checkbox" id="shO"> Shuffle options</label>
+  </div>
+  <button class="btn" id="start">Start Quiz</button>
+  <div class="hint">Click an option to answer. Correct answer moves on automatically; for a wrong answer the right one is shown and you press Next. Keys: 1–6 select, Enter = Next.</div>
+</div>
+
+<!-- QUIZ -->
+<div id="quiz" class="card hidden">
+  <div class="top"><span class="tag" id="tag"></span><span id="cnt"></span><span id="sc"></span></div>
+  <div class="bar"><div id="pb"></div></div>
+  <p class="q" id="qt"></p>
+  <div id="ol"></div>
+  <div class="fb" id="fb"></div>
+  <div class="foot">
+    <button class="btn ghost" id="quit">Quit</button>
+    <button class="btn hidden" id="next">Next →</button>
+  </div>
+</div>
+
+<!-- RESULT -->
+<div id="result" class="card hidden">
+  <h2>Quiz complete</h2>
+  <div class="score" id="rs"></div>
+  <p class="sub" id="rp"></p>
+  <div style="display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap">
+    <button class="btn" id="again">Try again</button>
+    <button class="btn ghost" id="toHome">Back to menu</button>
+  </div>
+  <div id="rv"></div>
+</div>
+
+</div>
+
+<script>
+const Q=(q,o,a)=>({q,o,a});
+const DATA={
+1:[
+Q(`A hazards is anything with the -------- for producing ............`,[`potential, accident`,`instinct, safety`,`Potential, safety`,`Instinct, accident`],[0]),
+Q(`Hazards are .......... to a material, or its conditions of use.`,[`intrinsic`,`extrinsic`,`safety`,`accident`],[0]),
+Q(`A .......... safety process identifies and eliminates existing safety hazards.`,[`Outstanding`,`good`,`best`,`better`],[1]),
+Q(`Accident process follow the sequence:`,[`Initiation, propagation, termination`,`Propagation, termination, initiation`,`Initiation, termination, propagation`,`termination, initiation, propagation.`],[0]),
+Q(`Risk is the probability of a .............. resulting in an accident.`,[`hazard`,`safety`,`management`,`All of these`],[0]),
+Q(`The term ........... means the number of injuries and illnesses, or lost workdays, per 100 full-time workers.`,[`Incidence rate`,`Fatal accident rate`,`Fatality rate`,`Number of fatalities`],[0]),
+Q(`Active and Passive Protection System comes under ......... protection of risk control measures.`,[`Physical`,`Educational`,`Procedural`,`None of these`],[0]),
+Q(`Mock Fire Drill and Safety Manuals Comes under ................ protection of risk control measures.`,[`Physical`,`Educational`,`Procedural`,`None of these`],[1]),
+Q(`Hazardous Substance Rules started at year..........and Factories Act in ..........`,[`1986, 1948`,`1948, 1986`,`1884, 1948`,`1986, 1968`],[0]),
+Q(`Flixborough disaster was occurred in ............. on ...................`,[`England, 1974.`,`Italy, 1976.`,`Madhya Pradesh, 1984.`,`Rajasthan, 2009.`],[0])
+],
+2:[
+Q(`The toxicity of a substance ............... be changed but hazard from that substance ........... be altered.`,[`Can, Cannot`,`Cannot, Can`,`Can, Can`,`Cannot, Cannot`],[1]),
+Q(`The name(s) of different route(s) of exposure to toxic substance is /are`,[`Inhalation`,`Ingestion`,`Skin contact`,`Injection`],[0,1,2,3]),
+Q(`Which chemical compound is systemic toxic?`,[`Benzene`,`Lead`,`Azo Dyes/ Amines`,`Potassium Cyanide`],[3]),
+Q(`Which are the most significant routes of toxic exposure to industrial facilities?`,[`Ingestion and inhalation`,`Injection and dermal`,`Inhalation and injection`,`Inhalation and dermal`],[3]),
+Q(`Which one of 4 routes of exposure of toxic to human body does not involve membrane transport phenomenon?`,[`Inhalation`,`Ingestion`,`Injection`,`Dermal`],[2]),
+Q(`If the duration of exposure to the chemical is in between 1-3 months then the exposure is referred as.....?`,[`Acute`,`Subacute`,`Sub chronic`,`Chronic`],[2]),
+Q(`Which is the top most of five layers making epidermis of human skin?`,[`Stratum Lucidum`,`Granular Layer`,`Basal Layer`,`Stratum corneum`],[3]),
+Q(`What is the dominant organ for the removal of toxicant from body via excretion?`,[`Kidney`,`Liver`,`Lungs`,`Skin`],[0]),
+Q(`What is the dominant organ for the removal of toxicant from body via detoxification?`,[`Kidney`,`Liver`,`Lungs`,`Skin`],[1]),
+Q(`What are the three major ways for the removal of toxicant from body?`,[`Ingestion, injection, inhalation`,`Excretion, detoxification, storage`,`Urinary excretion, exhalation, fecal excretion`,`Metabolism, biotransformation, excretion`],[1])
+],
+3:[
+Q(`Ventilation systems are composed of .........`,[`Fans`,`Ducts`,`Hood`,`All of these`],[3]),
+Q(`Industrial hygiene is ............`,[`Part Science`,`Part Art`,`Full science`,`Full art`],[0,1]),
+Q(`Industrial Hygiene is the application of scientific principles in the workplace to prevent the development of ............`,[`occupational disease`,`hazard`,`risk`,`all of these.`],[0]),
+Q(`In the ............... step, it is often necessary to collect and integrate the available information to identify new potential problems due to the combined effects of multiple exposures.`,[`Identification`,`Evaluation`,`Control`,`Termination`],[0]),
+Q(`Component Data comes under which section of MSDS.`,[`Section I`,`Section II`,`Section III`,`Section V`],[1]),
+Q(`Physical Data comes under which section of MSDS.`,[`Section I`,`Section II`,`Section IV`,`Section V`],[2]),
+Q(`PPE comes under which section of MSDS.`,[`Section III`,`Section IV`,`Section V`,`Section VI`],[2]),
+Q(`Reactivity Data comes under which section of MSDS.`,[`Section III`,`Section V`,`Section VI`,`Section VII`],[3]),
+Q(`A substance or agent capable of causing cancer in humans or animals is called`,[`Carcinogen`,`Mutagen`,`Teratogen`,`Hazardous`],[0]),
+Q(`A ................ is designed to provide both workers and emergency personnel with the proper procedures for handling or working with a particular substance.`,[`Material Safety Data Sheet (MSDS)`,`Hazard`,`Safety`,`Risk`],[0])
+],
+4:[
+Q(`The source model provides a description of ..........`,[`Mass/ volumetric flow of discharge`,`Total quantity discharged and total time for complete discharge`,`Phase of discharged material (solid, liquid, vapor, or multiphase)`,`All of the above`],[3]),
+Q(`Which one of the following should not be considered as a parameter for safe design?`,[`Choose condition for maximum release rate`,`Maximum quantity`,`Threshold dose quantity`,`If uncertainty exists, choose the worst scenario`],[2]),
+Q(`For flow of liquid through pipes, the excess head loss Kf can be calculated as Kf=4fL/d. Here, Kf has the unit of`,[`Metres`,`Square metres/ second`,`Metres/Second`,`Unitless`],[3]),
+Q(`Moody Diagram is a plot between Reynolds number and relative roughness of pipes, and it gives the value of.............`,[`Velocity gradient inside the pipe`,`Pressure drop inside the pipe`,`Friction factor of the pipe`,`Excess head loss inside the pipe`],[2]),
+Q(`2-K Method is used to calculate`,[`Head loss in long pipes`,`Head loss through hole in a tank`,`Velocity profile inside the pipe`,`All of the above`],[0]),
+Q(`Throttling flow is`,[`Isentropic Flow`,`Isenthalpic Flow`,`Adiabatic Flow`,`Isothermal Flow`],[1]),
+Q(`Usually gases have`,[`Positive Joule-Thomson coefficient`,`Negative Joule-Thomson coefficient`,`Similar Joule-Thomson coefficient`,`Constant Joule-Thomson coefficient`],[0]),
+Q(`If Pchoked represents choked pressure and P represents the pressure of vapor flowing through a hole, then for choked flow condition to occur`,[`P = Pchoked`,`P > Pchoked`,`P < Pchoked`,`Pchoked must be tending towards zero`],[2]),
+Q(`In an adiabatic flow of gas through a frictionless pipe, when a gas moves from higher pressure to lower pressure region, then\nI. Kinetic energy increases\nII. Kinetic energy decreases\nIII. Thermal energy increase\nIV. Thermal energy decreases`,[`I and III are correct`,`I and IV are correct`,`II and III are correct`,`II and IV are correct`],[1]),
+Q(`In an adiabatic flow of gas through a pipe having high friction, when a gas moves from higher pressure to lower pressure region, then\nI. Velocity of gas remains constant\nII. Velocity of gas either increases or decreases\nIII. Temperature of gas remains constant\nIV. Temperature of gas either increases or decreases`,[`I and III are correct`,`I and IV are correct`,`II and III are correct`,`II and IV are correct`],[1])
+],
+5:[
+Q(`Class C Fires are generally referred to:`,[`Ordinary combustibles such as wood and paper`,`Flammable and combustible liquids and gases`,`Energized electrical equipment`,`Combustible metals`,`Cooking Oils and Fats`],[2]),
+Q(`Rapid chemical process that produces heat and usually light is called`,[`Safety`,`Fire`,`Hazard`,`Explosion`],[1]),
+Q(`Mode of heat transfer, in which heat is transferred in the form of an invisible wave is called`,[`Conduction`,`Convection`,`Radiation`,`Vibration`],[2]),
+Q(`Heat energy always flows from ............. to ............. region`,[`high temperature, low temperature`,`low temperature, high temperature`,`heat source, heat sink`,`heat sink, heat source`],[0,2]),
+Q(`A ................................. is an explosion caused by the rupture of a vessel containing a pressurized liquid that has reached temperatures above its boiling point.`,[`boiling liquid expanding vapor explosion`,`vapor cloud explosion`,`chemical explosion`,`none of these`],[0]),
+Q(`Heat transferred from one molecule to another through direct contact is called`,[`Conduction`,`Convection`,`Radiation`,`Vibration`],[0]),
+Q(`Rapid expansion of gases resulting in a rapidly moving pressure or shock wave is called`,[`Combustion`,`Explosion`,`Fire`,`Radiation`],[1]),
+Q(`An explosion or a chemical reaction, with shock wave less than speed of sound is called`,[`Detonation`,`Combustion`,`Deflagration`,`BLEVE`],[2]),
+Q(`Fires release energy ..........., whereas explosion release ........., typically on the order of microseconds.`,[`Slowly, rapidly`,`Rapidly, slowly`,`Slowly, no energy`,`Negligibly, slowly`],[0]),
+Q(`Movement of heat through a fluid medium such as air or a liquid is called`,[`Conduction`,`Convection`,`Radiation`,`Vibration`],[1])
+],
+6:[
+Q(`................... is the process of reducing the concentration of oxygen below the limiting oxygen concentration (LOC) or minimum oxygen concentration (MOC).`,[`Inerting`,`Ventilation`,`Sprinkler system`,`Static electricity`],[0]),
+Q(`The process in which purge gas is added into a vessel at one opening and withdraws the mixed gas from the vessel to the atmosphere (or scrubber) from another opening is called .............`,[`Vacuum purging`,`Pressure purging`,`Sweep through purging`,`Siphon purging`],[2]),
+Q(`The ............. process starts by filling the vessel with liquid - water or any liquid compatible with the product.`,[`Vacuum purging`,`Pressure purging`,`Sweep through purging`,`Siphon purging`],[3]),
+Q(`................... is a result of physically separating a poor conductor from a good conductor or another poor conductor.`,[`Static charge buildup`,`Inerting`,`Streaming current`,`Capacitance`],[0]),
+Q(`If both the materials are good conductors, what will happen to charge buildup as a result of separation?`,[`Charge buildup is small`,`Charge buildup is large`,`No charge buildup`,`Can be any of one`],[0]),
+Q(`Which type of system should not be used in spaces designated for electrical equipment such as computers, switch boards and alike.`,[`Wet Sprinkler`,`Dry Sprinkler`,`Deluge Sprinkler`,`Pre-action Sprinkler`],[0]),
+Q(`Choose the one which is not considered as the charge accumulation processes that are relevant to dangerous electrostatic discharges in a chemical plant.`,[`Frictional charging`,`Double layer charging`,`Capacitance charging`,`Transport charging`],[2]),
+Q(`The voltage difference between two conductive materials is reduced to zero by ...............`,[`Bonding`,`Capacitor`,`Streaming current`,`Grounding`],[0]),
+Q(`Classification as defined in "National Electrical Code" says different groups which designate the presence of specific chemical type, so group E represents for:`,[`Carbon monoxide`,`Hydrogen sulfide`,`Butane`,`Aluminum dust`,`Carbon black`,`Flour`],[3]),
+Q(`Flashback or backdraft is caused by the ...................rich air to a smoke filled and fuel rich atmosphere.`,[`Addition of oxygen`,`Addition of carbon monoxide`,`Addition of nitrogen`,`Addition of argon`],[0])
+],
+7:[
+Q(`The first line of defense against accidents i.e. to prevent accidents at the origin does not include`,[`Developing of better process control`,`Controlling the process with safe operation region`,`Prevention of occurrence of dangerous high pressure`,`Installation of relief devices`],[3]),
+Q(`A nuclear fission reaction is carried out to produce electricity. During reaction the amount of neutrons produced inside the reactor increased above the desired limits. The best way to control the reaction is`,[`To remove some amount of fuel from the reactor`,`To add compatible heat transfer medium to remove the excessive heat`,`To insert the reaction inhibitor inside the reactor`,`All of the above`],[2]),
+Q(`The blow down of pressure relief wall is`,[`The maximum pressure after which the valve bursts`,`The pressure region where the valve can operate`,`The pressure drop until the valve close after relieving over pressure`,`The maximum allowable working pressure inside the reactor`],[2]),
+Q(`The overpressure of a relief valve is`,[`The incremental increase in pressure over the set pressure`,`The increase in pressure above the maximum allowable working pressure`,`The increase in pressure inside the reactor above its holding limit`,`The maximum allowable working pressure`],[0]),
+Q(`Predetermined pressure at which the relief device under operating conditions begins to activate is called`,[`Set Pressure`,`Operating Pressure`,`Maximum Allowable Working Pressure`,`Accumulation`],[0]),
+Q(`The operating pressure inside the vessel is usually taken`,[`Below 5% of MAWP`,`Below 10% of MAWP`,`Below 15% of MAWP`,`Below 20% of MAWP`],[1]),
+Q(`The term "accumulation" in a pressure vessel refers to the pressure`,[`Below the operating pressure`,`Above the operating pressure`,`Below the MAWP`,`Above the MAWP`],[3]),
+Q(`The pressure at the outlet (discharge side) of the safety relief valve during the relief process due to pressure existing in the downstream system is called as`,[`Relieving pressure`,`Blow down`,`Back Pressure`,`Lift`],[2]),
+Q(`Coefficient of discharge is equal to the`,[`Ratio of actual discharge to the theoretical discharge`,`Ratio of theoretical discharge to the actual discharge`,`Ratio of actual discharge to the required discharge`,`Ratio of theoretical discharge to the required discharge`],[0]),
+Q(`A chemical reaction is occurring in a closed reactor having pressure relief device to remove the excessive pressure. The gases produced in this reaction are nitrogen, carbon dioxide, and nitric oxide. If the relief valve is opened due to overpressure, then the gases must be`,[`directly vent off to the atmosphere`,`passed through scrubber to remove toxic elements`,`passed through incinerator to completely remove the toxicity`,`passed through flare house to burn out the gases`],[0])
+],
+8:[
+Q(`Under which category of hazard fall, having an immediate and obvious impact.`,[`Acute hazard`,`Chronic hazard`,`Radiation hazard`,`None of these.`],[0]),
+Q(`In which year Hazards and operability (HAZOP) studies was developed by Lawley?`,[`1974`,`1968`,`1947`,`1986`],[0]),
+Q(`Under which category of hazard fall, having more hidden, cumulative or long term impact.`,[`Acute hazard`,`Chronic hazard`,`Physical hazard`,`None of these.`],[1]),
+Q(`Under which category of hazard of shift work and workload fall?`,[`Physical`,`Psychological`,`Biological`,`Chemical`],[1]),
+Q(`Under which category of hazard of HERP/HERO/HERF effects fall?`,[`Chemical`,`Radiation`,`Physical`,`Mechanical`],[1]),
+Q(`Risk assessment procedure that determines probabilities is called ................ whereas a procedure that determines probability and consequences is called ............`,[`quantitative risk analysis (QRA), probabilistic risk assessment(PRA).`,`probabilistic risk assessment(PRA), quantitative risk analysis (QRA).`,`probabilistic risk assessment(PRA), probabilistic risk assessment(PRA).`,`quantitative risk analysis (QRA), quantitative risk analysis (QRA).`],[1]),
+Q(`....................... is a schematic illustration of functional relationship of piping, instrumentation, and system equipment components.`,[`Hazard Identification`,`Hazard survey`,`P&ID (Piping and Instrumentation Diagram)`,`Safety review`,`None of these.`],[2]),
+Q(`Daily hazard surveys are normally completed by the .......... While weekly hazard surveys are normally completed by the ............`,[`operator or shift leader, manager.`,`operator or shift leader, area safety inspector.`,`Area safety inspector, operator or shift leader.`,`Area safety inspector, manager.`],[0]),
+Q(`Monthly hazard surveys are normally completed by ............ while Quarterly hazard surveys are typically completed by .............`,[`Area safety inspector or safety coordinator, facility safety committee.`,`Facility safety committee, area safety inspector or safety coordinator.`,`Area safety inspector, operator or shift leader.`,`Area safety inspector, facility safety committee.`],[0]),
+Q(`What should we call Plant Superintendent of HAZOP team, according to the new design of HAZOP system.`,[`Project Engineer`,`Process Engineer`,`Commissioning Manager`,`Instrument Design Engineer`],[0])
+],
+9:[
+Q(`During HAZOP analysis, the following term could not be considered as an event`,[`increase in temperature/pressure`,`a release of a hazardous substance`,`Involvement of foreign component`,`None`],[3]),
+Q(`The "Event Tree analysis"`,[`Can be used for multiple initiating events at a single time`,`Work only for binary logic model`,`Does not work on inductive approach`,`All of the above`],[1]),
+Q(`The event which cannot be subdivided further and hence is the terminating point of the branch of the tree is called`,[`Top Event`,`Basic Event`,`Priority event`,`Super event`],[1]),
+Q(`"Exclusive OR" event is a type of`,[`Top event`,`Condition Event`,`Basic Event`,`Transfer Event`],[1]),
+Q(`"Failure event" (circles or diamond symbol) is a type of`,[`Top event`,`Condition event`,`Basic event`,`Transfer event`],[2]),
+Q(`The mitigation strategy for fault tree analysis does not include`,[`Physical redundancy of component`,`Software redundancy`,`Quality Control`,`Insurance`],[3]),
+Q(`Fail safe position of a control valve placed in a reactor assures safety during`,[`Start of the chemical reaction inside the reactor`,`End of the chemical reaction inside the reactor`,`Whenever the pressure exceeds inside the reactor`,`Failure of control system`],[3]),
+Q(`If a pressure relief device is to be mounted with the inlet water line of a cooling system. This cooling system will be provided to cool down the vessel during reaction runaway. Which kind of device should be installed?`,[`Fail Open control valve`,`Fail Close control valve`,`Anyone`,`None`],[0]),
+Q(`If a control valve is to be installed at the inlet of the feed of a reaction vessel, and a controlled supply of the feed is required to eliminate the chances of reaction runaway. Which kind of device should be installed?`,[`Fail Open control valve`,`Fail Close control valve`,`Anyone`,`None`],[1]),
+Q(`The two bows of the bow-tie diagram represents`,[`Barrier and escalation`,`Prevention and barrier`,`Mitigation and barrier`,`Prevention and mitigation`],[3])
+],
+10:[
+Q(`According to the Domino's theory, what percentage of all accidents are caused by unsafe acts of people, by unsafe actions and by "acts of God".`,[`85,10,5`,`88,10,2`,`85,5,10`,`88,2,10`],[1]),
+Q(`A good questioning technique in the interviewing process is to ask ............`,[`Open-ended questions`,`One word answer questions`,`Multiple choice questions`,`All of these`],[0]),
+Q(`Who developed the System's theory?`,[`W.H. Heinrich`,`Ferrel`,`Dan Petersen`,`Firenze`],[3]),
+Q(`Who developed the Swiss Cheese Model?`,[`W.H. Heinrich`,`Ferrel`,`James Reason's`,`Firenze`],[2]),
+Q(`Who developed the domino theory?`,[`W.H. Heinrich`,`Ferrel`,`James Reason's`,`Firenze`],[0]),
+Q(`Who developed the human factor model?`,[`W.H. Heinrich`,`Ferrel`,`Dan Petersen`,`Firenze`],[1]),
+Q(`.......... theory is an outgrowth of the .............. theory.`,[`Multiple causation, domino`,`System, domino`,`Pure chance, domino`,`Pure chance, ferrel's`],[0]),
+Q(`Which theory provides a technique for thorough, searching investigation of occupational accidents and analysis of safety programs?`,[`Pure chance`,`Systems`,`MORT`,`Domino`],[2]),
+Q(`......... ask the employee to re-enact the accident.`,[`Never`,`Always`,`Usually`,`Often`],[0]),
+Q(`Accident Investigation is one of the fundamental principles of ...............`,[`Loss Control management`,`Hazard Analysis`,`Accident assessment`,`None of these`,`All of these`],[0])
+],
+11:[
+Q(`Jaipur terminal fire accident happened on`,[`29 Oct 2009`,`01 June 1974`,`10 July 1976`,`03 Dec 1984`],[0]),
+Q(`Bhopal gas tragedy happened on`,[`29 Oct 2009`,`01 June 1974`,`10 July 1976`,`03 Dec 1984`],[3]),
+Q(`Flixborough disaster at a chemical plant owned by Nypro (UK) Ltd. happened on`,[`29 Oct 2009`,`01 June 1974`,`10 July 1976`,`03 Dec 1984`],[1]),
+Q(`Seveso accident happened on`,[`29 Oct 2009`,`01 June 1974`,`10 July 1976`,`03 Dec 1984`],[2]),
+Q(`The chemical involved in Flixborough disaster was`,[`Caprolectum`,`Methyl isocyanide`,`Cyclohexane`,`Tetrachlorodibenzodioxin`],[2]),
+Q(`The chemical released in Seveso accident was`,[`Caprolectum`,`Methyl isocyanide`,`Cyclohexane`,`Tetrachlorodibenzodioxin`],[3]),
+Q(`The gas released during Bhopal gas tragedy was`,[`Caprolectum`,`Methyl isocyanide`,`Cyclohexane`,`Tetrachlorodibenzodioxin`],[1]),
+Q(`The basic cause for occurrence of Jaipur terminal fire was`,[`absence of site specific written operating procedures`,`absence of leak stopping devices from a remote location (the facility for remote closing of the "Motor Operated Valve" connecting to the tank side, which could have stopped the leak)`,`insufficient understanding of hazards and risks and consequences`,`All of the above`],[3]),
+Q(`The end product produced by Union Carbide, Bhopal plant was`,[`Carbon monoxide and chlorine`,`Carbamide`,`Carbaryl`,`Phosgene`],[2]),
+Q(`In Seveso accident plant, the reactor assembly has a pressure relief device whose outlet was directly opened to atmosphere. The name of the relief device is`,[`Conventional Spring operated relief valve`,`Balanced Below Relief valve`,`Rupture disk`,`Pilot operated pressure relief valve`],[2])
+],
+12:[
+Q(`Alpha and Beta particles are the example of`,[`Direct ionizing radiation`,`Indirect ionizing radiation`,`X-Rays`,`Infrared Rays`],[0]),
+Q(`Alpha particles cannot penetrate`,[`Paper`,`Aluminum thin sheet`,`Thick concrete sheet`,`Iron bar`],[0]),
+Q(`The SI unit of absorbed ionizing radiation is Gray (Gy), which is equal to ......... of joule/Kg`,[`1`,`10`,`100`,`1000`],[0]),
+Q(`If the ionizing radiation emits the electron directly from the DNA or from neighboring molecules and disrupts the DNA then it is called`,[`Direct action`,`Indirect action`,`Potent action`,`Carcinogen`],[0]),
+Q(`If the electron strikes the ordinary water molecule, which results to produce free radical. A free radical interacts with other molecules very fast and may lead to disrupt the crucial DNA molecules. This is termed as`,[`Direct action`,`Indirect action`,`Potent action`,`Carcinogen`],[1]),
+Q(`OSHA directs the radiation exposure limits for whole body to ............. rem/quarter`,[`1`,`1.25`,`1.5`,`1.75`],[1]),
+Q(`The control rods in Magnox reactor inserted or withdrawn from the core to adjust the rate of`,[`Nuclear fusion`,`Nuclear Fission`,`Heat inside the reactor`,`All of the above`],[1]),
+Q(`The fuel used in Advanced gas cooled reactor which is the modified version of Magnox reactor is`,[`Uranium`,`Uranium dioxide`,`Thorium`,`Thorium dioxide`],[1]),
+Q(`The fuel in CANDU reactor is held in alloy cans of`,[`Magnesium`,`Stainless steel`,`Zirconium`,`Titanium`],[2]),
+Q(`The fissile material used in fast rectors for nuclear fission is`,[`U235`,`U238`,`Pu`,`Na`],[2])
+]
+};
+
+// ---------- helpers ----------
+const $=id=>document.getElementById(id);
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const pinned=t=>/^(all of|none of|none$|anyone$)/i.test(t.trim());
+
+let mode='week',week=1,list=[],idx=0,score=0,locked=false,wrong=[],timer=null,cfg={};
+
+// weeks grid
+for(let w=1;w<=12;w++){const b=document.createElement('button');b.className='wk'+(w===1?' on':'');b.textContent='W'+w;b.onclick=()=>{week=w;[...$('weeks').children].forEach((c,i)=>c.classList.toggle('on',i===w-1))};$('weeks').appendChild(b)}
+$('mWeek').onclick=()=>setMode('week');$('mAll').onclick=()=>setMode('all');
+function setMode(m){mode=m;$('mWeek').classList.toggle('on',m==='week');$('mAll').classList.toggle('on',m==='all');$('weekPick').classList.toggle('hidden',m==='all')}
+
+function build(){
+  let qs=[];
+  const weeks=mode==='all'?[...Array(12)].map((_,i)=>i+1):[week];
+  weeks.forEach(w=>DATA[w].forEach((q,n)=>qs.push({w,n:n+1,q:q.q,o:q.o.map((t,i)=>({t,c:q.a.includes(i)}))})));
+  if($('shQ').checked)qs=shuffle(qs);
+  if($('shO').checked)qs.forEach(q=>{const fixed=q.o.filter(x=>pinned(x.t)),free=q.o.filter(x=>!pinned(x.t));q.o=[...shuffle(free),...fixed]});
+  return qs;
+}
+function show(id){['home','quiz','result'].forEach(x=>$(x).classList.toggle('hidden',x!==id));window.scrollTo(0,0)}
+
+function start(){list=build();idx=0;score=0;wrong=[];cfg={mode,week};show('quiz');render()}
+function render(){
+  clearTimeout(timer);locked=false;
+  const q=list[idx];
+  $('tag').textContent='Week '+q.w+' · Q'+q.n;
+  $('cnt').textContent='Question '+(idx+1)+' / '+list.length;
+  $('sc').textContent='Score: '+score;
+  $('pb').style.width=(idx/list.length*100)+'%';
+  $('qt').textContent=q.q;
+  $('fb').textContent='';$('fb').className='fb';
+  $('next').classList.add('hidden');
+  const ol=$('ol');ol.innerHTML='';
+  q.o.forEach((o,i)=>{
+    const b=document.createElement('button');b.className='o';
+    b.innerHTML='<i>'+(i+1)+'</i><span></span>';b.lastChild.textContent=o.t;
+    b.onclick=()=>pick(i);ol.appendChild(b);
+  });
+}
+function pick(i){
+  if(locked)return;locked=true;
+  const q=list[idx],btns=[...$('ol').children];
+  btns.forEach(b=>b.disabled=true);
+  if(q.o[i].c){
+    btns[i].classList.add('ok');score++;
+    $('fb').textContent='✔ Correct!';$('fb').className='fb ok';
+    $('sc').textContent='Score: '+score;
+    timer=setTimeout(next,750);
+  }else{
+    btns[i].classList.add('no');
+    q.o.forEach((o,k)=>{if(o.c)btns[k].classList.add('ok')});
+    wrong.push({q,chosen:q.o[i].t});
+    $('fb').textContent='✘ Incorrect – the correct answer is highlighted.';$('fb').className='fb no';
+    $('next').textContent=idx===list.length-1?'Finish':'Next →';
+    $('next').classList.remove('hidden');
+  }
+}
+function next(){
+  clearTimeout(timer);
+  if(idx<list.length-1){idx++;render()}else finish();
+}
+function finish(){
+  $('pb').style.width='100%';
+  const pc=Math.round(score/list.length*100);
+  $('rs').textContent=score+' / '+list.length;
+  $('rp').textContent=pc+'% correct'+(wrong.length?' · '+wrong.length+' to review':' · perfect run!');
+  const rv=$('rv');rv.innerHTML='';
+  if(wrong.length){const h=document.createElement('h3');h.textContent='Review of incorrect answers';rv.appendChild(h)}
+  wrong.forEach(w=>{
+    const d=document.createElement('div');d.className='rev';
+    const b=document.createElement('b');b.textContent='Week '+w.q.w+' · Q'+w.q.n+': '+w.q.q;
+    const n=document.createElement('div');n.className='n';n.textContent='Your answer: '+w.chosen;
+    const y=document.createElement('div');y.className='y';y.textContent='Correct: '+w.q.o.filter(o=>o.c).map(o=>o.t).join('  |  ');
+    d.append(b,n,y);rv.appendChild(d);
+  });
+  show('result');
+}
+$('start').onclick=start;
+$('next').onclick=next;
+$('quit').onclick=()=>{if(confirm('Quit this quiz and go back to the menu?')){clearTimeout(timer);show('home')}};
+$('again').onclick=start;
+$('toHome').onclick=()=>show('home');
+document.addEventListener('keydown',e=>{
+  if($('quiz').classList.contains('hidden'))return;
+  if(e.key>='1'&&e.key<='6'){const n=+e.key-1;if(n<list[idx].o.length)pick(n)}
+  else if(e.key==='Enter'&&!$('next').classList.contains('hidden'))next();
+});
+</script>
+</body>
+</html>
